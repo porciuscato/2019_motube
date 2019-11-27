@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+<div class="container">
+  <h1>유저 정보</h1>
+  {% if user.is_authenticated %}
+    {% if user != person %}
+      {% if user in person.followers.all %}
+        <a href="{% url 'accounts:follow' person.pk %}">unfollow</a>
+      {% else %}
+        <a href="{% url 'accounts:follow' person.pk %}">follow</a>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+
+  <h3>유저 작성 평점정보</h3>
+  {% for review in reviews %}
+  <p>{{ review.movie }} {{ review.content}} {{ review.score }}</p>
+  {% endfor %}
+
+  <h3>유저가 좋아하는 영화의 평점 정보</h3>
+  {% for movie in like_movies %}
+  {% for review in movie.review_set.all %}
+  <p>{{ movie }} {{ review.score }}</p>
+  {% endfor %}
+  {% endfor %}
+  <h3>유저를 팔로우한 사람의 수: {{ person.followers.all|length }}</h3>
+  <h3>유저가 팔로잉한 사람의 수: {{ person.followings.all|length }}</h3>
+</div>
+
+
+{% endblock %}

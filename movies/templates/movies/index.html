@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    {% for movie in movies %}
+    <div class="col-4">
+      <div class="card" style="width: 18rem;">
+        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster_url }}" alt=""></a>
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }}</h5>
+          {% if user.is_authenticated %}
+            {% if movie in user.like_movies.all %}
+              <a class="btn btn-danger" href="{% url 'movies:like' movie.pk %}">좋아요취소</a>
+            {% else %}
+              <a href="{% url 'movies:like' movie.pk %}" class="btn btn-primary">좋아요</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

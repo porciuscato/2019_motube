@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+
+{% block body %}
+<div class="container">
+  <div>
+    <h2>{{ movie.title }}</h2>
+    <img src="{{ movie.poster_url }}" alt="movie_poster" width=50%>
+    <p>소개: {{ movie.description }}</p>
+    <p>관객: {{ movie.audience }}</p>
+    <p>장르:
+      {% for gen in movie.genre.all %}
+      {{ gen.name }}
+      {% endfor %}
+    </p>
+
+  </div>
+  <div>
+    <h5>리뷰</h5>
+    {% if user.is_authenticated %}
+    <form action="{% url 'movies:create_review' movie.pk %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form review_form %}
+      <input class="btn btn-light" type="submit" value="작성">
+    </form>
+    {% endif %}
+    {% for review in reviews %}
+      <form action="{% url 'movies:delete_review' movie.pk review.pk %}" method="POST">
+        {{ review.user }} - {{ review.content }} {{ review.score}}점
+        {% if user == review.user %}
+          {% csrf_token %}
+          <button class="btn btn-warning" type="submit">삭제</button>
+        {% endif %}
+      </form>  
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
