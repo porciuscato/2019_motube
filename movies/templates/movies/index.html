@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container">
+<div id="app">
   <div class="row">
     {% for movie in movies %}
     <div class="col-4">
@@ -10,10 +10,10 @@
         <div class="card-body">
           <h5 class="card-title">{{ movie.title }}</h5>
           {% if user.is_authenticated %}
-            {% if movie in user.like_movies.all %}
-              <a class="btn btn-danger" href="{% url 'movies:like' movie.pk %}">좋아요취소</a>
+            {% if user in movie.like_users.all %}
+              <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-outline-primary">좋아요 취소</button>
             {% else %}
-              <a href="{% url 'movies:like' movie.pk %}" class="btn btn-primary">좋아요</a>
+              <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-primary">좋아요</button>
             {% endif %}
           {% endif %}
         </div>
@@ -23,4 +23,45 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+    },
+    methods: {
+      like(movieId) {
+        const likeBtn = document.querySelector(`#like${movieId}`)
+        axios.get(`/movies/${movieId}/like/`)
+          .then(res => {
+            if (res.data.liked) {
+              likeBtn.className='btn btn-outline-primary'
+              likeBtn.innerText='좋아요 취소'
+            } else {
+              likeBtn.className='btn btn-primary'
+              likeBtn.innerText='좋아요'
+            }
+          })
+      }
+    }
+  })
+  // const likeBtn = document.querySelector('#like-btn')
+  // likeBtn.addEventListener('click', function (e) {
+  //   const movieId = e.target.dataset.id
+  //   console.log(movieId)
+  // axios.get(`/movies/${movieId}/like/`)
+  //   .then(res => {
+  //     if (res.data.liked) {
+  //       e.target.classList.remove('btn-primary')
+  //       e.target.classList.add('btn-outline-primary')
+  //       e.target.innerText = '좋아요 취소'
+  //     } else {
+  //       e.target.classList.remove('btn-outline-primary')
+  //       e.target.classList.add('btn-primary')
+  //       e.target.innerText = '좋아요'
+  //     }
+  //     })
+  // })
+</script>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, Review
 from .forms import ReviewForm
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from IPython import embed
@@ -25,14 +26,21 @@ def detail(request, movie_pk):
     }
     return render(request, 'movies/detail.html', context)
 
+@login_required
 def like(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     user = request.user
     if user.like_movies.filter(pk=movie_pk).exists():
         user.like_movies.remove(movie)
+        liked = False
     else:
         user.like_movies.add(movie)
-    return redirect("movies:index")
+        liked = True
+    like_users = list(movie.like_users.all().values())
+    context = {
+        'liked': liked,
+    }
+    return JsonResponse(context)
 
 @login_required
 def delete_review(request, movie_pk, review_pk):
