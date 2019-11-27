@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, Review
+from .models import Movie, Review, Video
 from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -18,10 +18,12 @@ def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     reviews = movie.review_set.all()
     review_form = ReviewForm()
+    videos = Video.objects.filter(movie=movie_pk)
     context = {
         'movie': movie,
         'review_form': review_form,
         'reviews': reviews,
+        'videos': videos,
     }
     return render(request, 'movies/detail.html', context)
 

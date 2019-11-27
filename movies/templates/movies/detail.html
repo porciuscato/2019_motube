@@ -4,21 +4,42 @@
 
 {% block body %}
 <div class="container">
-  <div>
+  <div class="title">
     <h2>{{ movie.title }}</h2>
-    <img src="{{ movie.poster }}" alt="movie_poster" width=30%>
-    <div id="desArea">
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <div class="poster">
+        <img src="{{ movie.poster }}" alt="movie_poster" width=100%>
+      </div>
+    </div>
+    <div class="col-7">
+        <p>등급: {{ movie.rate }}</p>
+        <p>장르:
+          {% for gen in movie.genre.all %}
+          {{ gen.name }}
+          {% endfor %}
+        </p>
+    </div>
+  </div>
+  <div class="movie_detail">
       <pre id="movieDescript">{{ movie.description }}</pre>
-    </div>    
-    <p>관객: {{ movie.audi }}</p>
-    <p>장르:
-      {% for gen in movie.genre.all %}
-      {{ gen.name }}
+  </div>
+
+      
+    
+
+  <div class="video_area">
+    <div class="row">
+      {% for video in videos %}
+      <div class="col-4">
+        <iframe width="360" height="202" src="{{ video.video_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
       {% endfor %}
-    </p>
+    </div>
 
   </div>
-  <div>
+  <div class="review_area">
     <h5>리뷰</h5>
     {% if user.is_authenticated %}
     <form action="{% url 'movies:create_review' movie.pk %}" method="POST">
@@ -40,7 +61,7 @@
 </div>
 
 <script>
-  test = document.createElement('span')
+  let test = document.createElement('span')
   test.innerHTML = document.querySelector('#movieDescript').innerText
   document.querySelector('#movieDescript').innerText = ''
   document.querySelector('#movieDescript').append(test)
