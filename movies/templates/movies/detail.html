@@ -14,33 +14,43 @@
       </div>
     </div>
     <div class="col-7">
-        <p>등급: {{ movie.rate }}</p>
-        <p>장르:
-          {% for gen in movie.genre.all %}
-            {{ gen.name }}
-          {% endfor %}
-        </p>
-        <h4>유튜브 핫클립</h4>
-        <div id="videoCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <iframe class="d-block w-100" width="560" height="340" src="{{ first_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              </div>
-              {% for video in rem_src %}
-                <div class="carousel-item">
-                    <iframe class="d-block w-100" width="560" height="340" src="{{ video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-              {% endfor %}
+      <p>등급: {{ movie.rate }}</p>
+      <p>장르:
+        {% for gen in movie.genre.all %}
+          {{ gen.name }}
+        {% endfor %}
+      </p>
+      <h4>유튜브 핫클립</h4>
+      <div id="videoCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <iframe class="d-block w-100" width="560" height="340" src="{{ first_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <a class="carousel-control-prev" href="#videoCarousel" role="button" data-slide="prev" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
-              <span class="carousel-control-prev-icon" aria-hidden="false"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#videoCarousel" role="button" data-slide="next" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
-              <span class="carousel-control-next-icon" aria-hidden="false"></span>
-              <span class="sr-only">Next</span>
-            </a>
+            {% for video in rem_src %}
+              <div class="carousel-item">
+                  <iframe class="d-block w-100" width="560" height="340" src="{{ video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            {% endfor %}
           </div>
+          <a class="carousel-control-prev" href="#videoCarousel" role="button" data-slide="prev" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
+            <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#videoCarousel" role="button" data-slide="next" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
+            <span class="carousel-control-next-icon" aria-hidden="false"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        <div class="starRev" style="margin-top:20px;">
+          <span id="">나의 평점</span>
+          <span class="starR on">1</span>
+          <span class="starR">2</span>
+          <span class="starR">3</span>
+          <span class="starR">4</span>
+          <span class="starR">5</span>
+          <span id="score"></span>
+          <span id=""> 점</span>
+        </div>
     </div>
   </div>
 
@@ -72,10 +82,30 @@
   </div>
 </div>
 
+
+<style>
+.starR{
+  background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+  background-size: auto 100%;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+.starR.on{background-position:0 0;}
+</style>
+
 <script>
   let test = document.createElement('span')
   test.innerHTML = document.querySelector('#movieDescript').innerText
   document.querySelector('#movieDescript').innerText = ''
   document.querySelector('#movieDescript').append(test)
+  $('.starRev span').click(function(){
+    $(this).parent().children('span').removeClass('on');
+    $(this).addClass('on').prevAll('span').addClass('on');
+    return false;
+  });
+
 </script>
 {% endblock %}
