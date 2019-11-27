@@ -55,7 +55,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('movies:index')
+            return redirect('accounts:login')
         return redirect('accounts:signup')
     else:
         form = CustomUserCreationForm()
