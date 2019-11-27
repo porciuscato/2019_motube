@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -35,7 +35,8 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect(request.GET.get('next') or 'movies:index') 
+            return redirect(request.GET.get('next') or 'movies:index')
+        return redirect('accounts:login')
     else:
         form = AuthenticationForm()
         context = {

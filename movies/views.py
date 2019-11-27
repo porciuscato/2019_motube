@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, Review, Video
+from .models import Movie, Review, Video, Movie_Score
 from .forms import ReviewForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -70,3 +70,12 @@ def create_review(request, movie_pk):
             review.user = request.user
             review.save()
     return redirect("movies:detail", movie_pk)
+
+@login_required
+def create_score(request, movie_pk):
+    movie_score = Movie_Score.objects.filter(user=request.user.pk, movie=movie_pk)
+    if movie_score.exists():
+        movie_score.score = 3
+    else:
+        Movie_Score.objects.create(user=request.user.pk, movie=movie_pk, score=request.POST)
+    return redirect('movies:detail', movie_pk)

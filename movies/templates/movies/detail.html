@@ -21,13 +21,13 @@
         {% endfor %}
       </p>
       <h4>유튜브 핫클립</h4>
-      <div id="videoCarousel" class="carousel slide" data-ride="carousel">
+      <div id="videoCarousel" class="carousel slide">
           <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item active" data-interval="100000">
               <iframe class="d-block w-100" width="560" height="340" src="{{ first_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             {% for video in rem_src %}
-              <div class="carousel-item">
+              <div class="carousel-item" data-interval="100000">
                   <iframe class="d-block w-100" width="560" height="340" src="{{ video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             {% endfor %}
@@ -41,16 +41,17 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-        <div class="starRev" style="margin-top:20px;">
-          <span id="">나의 평점</span>
-          <span class="starR on">1</span>
-          <span class="starR">2</span>
-          <span class="starR">3</span>
-          <span class="starR">4</span>
-          <span class="starR">5</span>
-          <span id="score"></span>
-          <span id=""> 점</span>
+        <div class="app">
+          <div class="starRev" style="margin-top:20px;">
+            <span id="">나의 평점</span>
+            <span @click='create_score({{ movie.pk }})' id="star1" class="starR">1</span>
+            <span @click='create_score({{ movie.pk }})' id="star2" class="starR">2</span>
+            <span @click='create_score({{ movie.pk }})' id="star3" class="starR">3</span>
+            <span @click='create_score({{ movie.pk }})' id="star4" class="starR">4</span>
+            <span @click='create_score({{ movie.pk }})' id="star5" class="starR">5</span>
+          </div>
         </div>
+        
     </div>
   </div>
 
@@ -101,11 +102,23 @@
   test.innerHTML = document.querySelector('#movieDescript').innerText
   document.querySelector('#movieDescript').innerText = ''
   document.querySelector('#movieDescript').append(test)
+  const app = new Vue({
+    el:'#app',
+    data: {},
+    methods: {
+      create_score(movie_pk){
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+        // axios.post('movies/')
+      }
+    }
+  })
   $('.starRev span').click(function(){
     $(this).parent().children('span').removeClass('on');
     $(this).addClass('on').prevAll('span').addClass('on');
     return false;
   });
+
 
 </script>
 {% endblock %}
