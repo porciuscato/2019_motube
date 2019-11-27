@@ -1,25 +1,32 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
-
 {% block body %}
 <div class="mt-3">
   {% if user.is_authenticated %}
-    {% if user != person %}
-      {% if user in person.followers.all %}
-        <a href="{% url 'accounts:follow' person.pk %}">unfollow</a>
-      {% else %}
-        <a href="{% url 'accounts:follow' person.pk %}">follow</a>
-      {% endif %}
-    {% endif %}
+  {% if user != person %}
+  {% if user in person.followers.all %}
+  <a href="{% url 'accounts:follow' person.pk %}">unfollow</a>
+  {% else %}
+  <a href="{% url 'accounts:follow' person.pk %}">follow</a>
+  {% endif %}
+  {% endif %}
   {% endif %}
 
   <h3>내가 좋아하는 영화</h3>
-  {% for movie in like_movies %}
-    <a href="{% url 'movies:detail' movie.pk %}">{{ movie }}</a>
-    <br>
-    {% for review in movie.review_set.all %}
-      <p>{{ movie }} {{ review.score }}</p>
+  <div class="row">
+    {% for movie in like_movies %}
+    <div class="col-3">
+      <div class="card" style="width: 18rem;">
+        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}"
+            alt="poster"></a>
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }}</h5>
+        </div>
+      </div>
+    </div>
     {% endfor %}
+  </div>
+  {% for review in movie.review_set.all %}
+  <p>{{ movie }} {{ review.score }}</p>
   {% endfor %}
 </div>
 
