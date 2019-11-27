@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div id="app">
+<div id="app" class="mt-3">
+  <h3>유튜브가 추천하는 영화</h3>
   <div class="row">
     {% for movie in movies %}
-    <div class="col-4">
+    <div class="col-3">
       <div class="card" style="width: 18rem;">
-        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
+        {% endif %}
         <div class="card-body">
           <h5 class="card-title"><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></h5>
           {% if user.is_authenticated %}
@@ -46,22 +51,5 @@
       }
     }
   })
-  // const likeBtn = document.querySelector('#like-btn')
-  // likeBtn.addEventListener('click', function (e) {
-  //   const movieId = e.target.dataset.id
-  //   console.log(movieId)
-  // axios.get(`/movies/${movieId}/like/`)
-  //   .then(res => {
-  //     if (res.data.liked) {
-  //       e.target.classList.remove('btn-primary')
-  //       e.target.classList.add('btn-outline-primary')
-  //       e.target.innerText = '좋아요 취소'
-  //     } else {
-  //       e.target.classList.remove('btn-outline-primary')
-  //       e.target.classList.add('btn-primary')
-  //       e.target.innerText = '좋아요'
-  //     }
-  //     })
-  // })
 </script>
 {% endblock %}
