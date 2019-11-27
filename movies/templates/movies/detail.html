@@ -6,9 +6,11 @@
 <div class="container">
   <div>
     <h2>{{ movie.title }}</h2>
-    <img src="{{ movie.poster_url }}" alt="movie_poster" width=50%>
-    <p>소개: {{ movie.description }}</p>
-    <p>관객: {{ movie.audience }}</p>
+    <img src="{{ movie.poster }}" alt="movie_poster" width=30%>
+    <div id="desArea">
+      <pre id="movieDescript">{{ movie.description }}</pre>
+    </div>    
+    <p>관객: {{ movie.audi }}</p>
     <p>장르:
       {% for gen in movie.genre.all %}
       {{ gen.name }}
@@ -36,4 +38,11 @@
     {% endfor %}
   </div>
 </div>
+
+<script>
+  test = document.createElement('span')
+  test.innerHTML = document.querySelector('#movieDescript').innerText
+  document.querySelector('#movieDescript').innerText = ''
+  document.querySelector('#movieDescript').append(test)
+</script>
 {% endblock %}
