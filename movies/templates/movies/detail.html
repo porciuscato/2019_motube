@@ -17,28 +17,40 @@
         <p>등급: {{ movie.rate }}</p>
         <p>장르:
           {% for gen in movie.genre.all %}
-          {{ gen.name }}
+            {{ gen.name }}
           {% endfor %}
         </p>
+        <h4>유튜브 핫클립</h4>
+        <div id="videoCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <iframe class="d-block w-100" width="560" height="340" src="{{ first_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              {% for video in rem_src %}
+                <div class="carousel-item">
+                    <iframe class="d-block w-100" width="560" height="340" src="{{ video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#videoCarousel" role="button" data-slide="prev" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
+              <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#videoCarousel" role="button" data-slide="next" style="height:30px; width:30px; margin-top:auto; margin-bottom:100px;">
+              <span class="carousel-control-next-icon" aria-hidden="false"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
     </div>
   </div>
+
+
   <div class="movie_detail">
       <pre id="movieDescript">{{ movie.description }}</pre>
   </div>
 
       
-    
-
-  <div class="video_area">
-    <div class="row">
-      {% for video in videos %}
-      <div class="col-4">
-        <iframe width="360" height="202" src="{{ video.video_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      {% endfor %}
-    </div>
-
-  </div>
+  
   <div class="review_area">
     <h5>리뷰</h5>
     {% if user.is_authenticated %}

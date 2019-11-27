@@ -20,11 +20,17 @@ def detail(request, movie_pk):
     reviews = movie.review_set.all()
     review_form = ReviewForm()
     videos = Video.objects.filter(movie=movie_pk)
+    videos = [ele for ele in videos]
+    video_srcs = [ele.video_src for ele in videos]
+    first_src = video_srcs[0]
+    rem_src = video_srcs[1:]
     context = {
         'movie': movie,
         'review_form': review_form,
         'reviews': reviews,
         'videos': videos,
+        'first_src': first_src,
+        'rem_src': rem_src,
     }
     return render(request, 'movies/detail.html', context)
 
