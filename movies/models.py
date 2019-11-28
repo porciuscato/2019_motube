@@ -32,20 +32,20 @@ class Movie(models.Model):
         return self.title
 
 class Video(models.Model):
-    channelId = models.CharField(max_length=50)
-    channelTitle = models.CharField(max_length=100)
-    videoTitle = models.CharField(max_length=100)
+    channelId = models.TextField()
+    channelTitle = models.TextField()
+    videoTitle = models.TextField()
     description = models.TextField()
-    videoId = models.CharField(max_length=50)
-    created_at = models.CharField(max_length=100)
-    thumbnail_small = models.CharField(max_length=200)
-    thumbnail_medium = models.CharField(max_length=200)
-    thumbnail_high = models.CharField(max_length=200)
+    videoId = models.TextField()
+    created_at = models.TextField()
+    thumbnail_small = models.TextField()
+    thumbnail_medium = models.TextField()
+    thumbnail_high = models.TextField()
     view_count = models.IntegerField()
     like_count = models.IntegerField()
     dislike_count = models.IntegerField()
     comment_count = models.IntegerField()
-    video_src = models.CharField(max_length=200)
+    video_src = models.TextField()
     iframe = models.TextField()
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
@@ -53,7 +53,7 @@ class Video(models.Model):
         return self.videoTitle
 
 class Review(models.Model):
-    content = models.CharField(max_length=300)
+    content = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -70,5 +70,4 @@ class Movie_Score(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     score = models.FloatField()
-    
     objects = DataFrameManager()

@@ -11,32 +11,54 @@
   {% endif %}
   {% endif %}
 
-  <h3>내가 좋아하는 영화</h3>
+  <h3 id="page_title" style="margin-top:30px; margin-bottom:20px;">찜한 영화</h3>
   <div class="row">
     {% for movie in like_movies %}
     <div class="col-3">
-      <div class="card" style="width: 18rem;">
-        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}"
-            alt="poster"></a>
-        <div class="card-body">
-          <h5 class="card-title">{{ movie.title }}</h5>
+        <div class="card" style="width: 15rem;">
+            <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+        <div class="card-body px-3 py-3">
+            <h5 class="card-title m-0"><a id="title_link" href="{% url 'movies:detail' movie.pk %}" style="font-size:1.1rem">{{ movie.title }}</a></h5>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
-  <h3 class="mt-3">알수없는 추천 알고리즘</h3>
+
+
+  <h3 id="page_title" style="margin-top:30px; margin-bottom:20px;">이번엔 이거 볼까</h3>
   <div class="row">
     {% for movie in reco_movies %}
     <div class="col-3">
-      <div class="card" style="width: 18rem;">
-        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
-        <div class="card-body">
-          <h5 class="card-title">{{ movie.title }}</h5>
+      <div class="card" style="width: 15rem;">
+        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+        <div class="card-body px-3 py-3">
+          <h5 class="card-title m-0"><a id="title_link" href="{% url 'movies:detail' movie.pk %}" style="font-size:1.1rem">{{ movie.title }}</a></h5>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+
+<style type="text/css">
+  #title_link:link {
+    color: black; text-decoration: none;
+  }
+  #title_link:visited {
+    color: black; text-decoration: none;
+  }
+  #title_link:hover {
+    color: black; text-decoration: none;
+  }
+  .card-title {
+    text-align: center;
+  }
+  #page_title {
+    color: #dcdcdc;
+    font-family: 'Jua', sans-serif;
+  }
+</style>
 {% endblock %}
+
+

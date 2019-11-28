@@ -1,0 +1,1 @@
+web: gunicorn motube.wsgi --log-file -
