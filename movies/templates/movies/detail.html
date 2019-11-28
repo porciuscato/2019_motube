@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container">
   <div class="title">
-    <h2>{{ movie.title }}</h2>
+    <h2 id="page_title" style="margin-top:30px; margin-bottom:20px;">{{ movie.title }}</h2>
   </div>
   <div class="row">
     <div class="col-5">
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div class="movie_detail">
+  <div class="movie_detail mb-5">
       <pre id="movieDescript">{{ movie.description }}</pre>
   </div>
 </div>
@@ -89,6 +89,14 @@
 }
 .col-7 {
   color:#dcdcdc;
+}
+#page_title {
+    color: #dcdcdc;
+    font-family: 'Jua', sans-serif;
+  }
+#movieDescript {
+  font-family: 'Noto Serif KR', serif;
+  color: white;
 }
 </style>
 
