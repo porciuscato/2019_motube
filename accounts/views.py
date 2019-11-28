@@ -81,7 +81,6 @@ def index(request):
 def user_detail(request, user_pk):
     person = get_object_or_404(get_user_model(), pk=user_pk)
     like_movies = person.like_movies.all()
-    reviews = Review.objects.filter(author=user_pk)
     scores = Movie_Score.objects.all()
     if scores:
         ratings = scores.to_pivot_table(values='score', rows='movie', cols='user').to_dict()
@@ -94,7 +93,6 @@ def user_detail(request, user_pk):
         movie_lst = []
     context = {
         'person': person,
-        'reviews': reviews,
         'like_movies': like_movies,
         "reco_movies": movie_lst
     }
