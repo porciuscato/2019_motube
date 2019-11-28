@@ -3,23 +3,25 @@
 {% block body %}
 <h3 id="page_title">유튜브가 추천하는 영화</h3>
 <div id="app" class="mt-3">
-  <div class="row">
+  <h3>유튜브가 추천하는 영화</h3>
+  <div class="row" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     {% for movie in movies %}
     <div class="col-3 mb-2">
       <div class="card" style="width: 15rem;">
         {% if user.is_authenticated %}
-          <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}"
+            alt="poster"></a>
         {% else %}
-          <a href="{% url 'accounts:login' %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+        <a href="{% url 'accounts:login' %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
         {% endif %}
         <div class="card-body px-3 py-3">
           <h5 class="card-title m-0"><a id="title_link" href="{% url 'movies:detail' movie.pk %}" style="font-size:1.1rem">{{ movie.title }}</a></h5>
           {% if user.is_authenticated %}
-            {% if user in movie.like_users.all %}
-                <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-outline-primary" style="margin-left:120px; margin-top:10px;">찜 취소</button>
-            {% else %}
-                <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-primary" style="margin-left:120px; margin-top:10px;">찜하기</button>
-            {% endif %}
+          {% if user in movie.like_users.all %}
+          <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-outline-primary">좋아요 취소</button>
+          {% else %}
+          <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-primary">좋아요</button>
+          {% endif %}
           {% endif %}
         </div>
       </div>
@@ -54,10 +56,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="https://unpkg.com/vue-infinite-scroll"></script>
 <script>
+  var count = 0;
   const app = new Vue({
     el: '#app',
     data: {
+      data: [],
+      busy: false
     },
     methods: {
       like(movieId) {
@@ -65,15 +71,27 @@
         axios.get(`/movies/${movieId}/like/`)
           .then(res => {
             if (res.data.liked) {
-              likeBtn.className='btn btn-outline-primary'
-              likeBtn.innerText='찜 취소'
+              likeBtn.className = 'btn btn-outline-primary'
+              likeBtn.innerText = '좋아요 취소'
             } else {
-              likeBtn.className='btn btn-primary'
-              likeBtn.innerText='찜하기'
+              likeBtn.className = 'btn btn-primary'
+              likeBtn.innerText = '좋아요'
             }
           })
+      },
+      loadMore: function () {
+        this.busy = true;
+
+        setTimeout(() => {
+          for (var i = 0, j = 10; i < j; i++) {
+            this.data.push({
+              name: count++
+            });
+          }
+          this.busy = false;
+        }, 1000);
       }
-    }
+    },
   })
 
 
