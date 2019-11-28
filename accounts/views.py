@@ -20,6 +20,8 @@ def sim_pearson(data, name1, name2):
     sumPowY=0 # Y 제곱의 합
     sumXY=0 # X*Y의 합
     count=0 #영화 개수
+    if not data.get(name1):
+        return 0
     for i in data[name1]: # i = key
         if math.isnan(data[name1][i]):
             continue
@@ -32,7 +34,9 @@ def sim_pearson(data, name1, name2):
         sumPowY+=pow(data[name2][i],2)
         sumXY+=data[name1][i]*data[name2][i]
         count+=1
-        
+    
+    if count == 0:
+        return 0
     a = sumXY- ((sumX*sumY)/count)
     b = (sumPowX - (pow(sumX,2) / count))
     c = (sumPowY - (pow(sumY,2) / count))
@@ -51,7 +55,11 @@ def top_match(data, name, index=3):
     return li[:index]
 
 def get_recommend(data, person):
+    if not data.get(person):
+        return []
     res = top_match(data, person)
+    if not res:
+        return []
     sim_person = max(res)[1]
     lst = []
     for movie in data[sim_person]:
