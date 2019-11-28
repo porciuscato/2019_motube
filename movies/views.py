@@ -72,10 +72,14 @@ def create_review(request, movie_pk):
     return redirect("movies:detail", movie_pk)
 
 @login_required
-def create_score(request, movie_pk):
+def create_score(request, movie_pk, score):
     movie_score = Movie_Score.objects.filter(user=request.user.pk, movie=movie_pk)
+    movie = get_object_or_404(Movie, pk=movie_pk)
     if movie_score.exists():
-        movie_score.score = 3
+        target = movie_score[0]
+        target.score = score
+        target.save()
     else:
-        Movie_Score.objects.create(user=request.user.pk, movie=movie_pk, score=request.POST)
+        instance = Movie_Score(user=request.user, movie=movie, score=score)
+        instance.save()
     return redirect('movies:detail', movie_pk)
