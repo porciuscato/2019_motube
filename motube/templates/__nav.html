@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="{% url 'movies:index' %}">Motube</a>
+  <a id="home" class="navbar-brand" href="{% url 'movies:index' %}">Motube</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@
         <a class="nav-link" href="{% url 'accounts:delete' %}">회원탈퇴</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:user_detail' user.pk %}">프로필</a>
+        <a class="nav-link" href="{% url 'accounts:user_detail' user.pk %}">내 영화</a>
       </li>
       {% else %}
       <li class="nav-item">
@@ -29,9 +29,18 @@
       </li>
       {% endif %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" action="{% url 'movies:search' %}">
+      <input class="form-control mr-sm-2" name="query" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
 </nav>
+
+<style>
+  a {
+    font-family: 'Nanum Gothic Coding', monospace;
+  }
+  #home {
+    font-family: 'Calistoga', cursive;
+  }
+</style>

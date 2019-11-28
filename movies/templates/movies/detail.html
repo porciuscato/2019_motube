@@ -23,11 +23,11 @@
       <h4>유튜브 핫클립</h4>
       <div id="videoCarousel" class="carousel slide">
           <div class="carousel-inner">
-            <div class="carousel-item active" data-interval="100000000">
+            <div class="carousel-item active" data-interval="false">
               <iframe class="d-block w-100" width="560" height="340" src="{{ first_src }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             {% for video in rem_src %}
-              <div class="carousel-item" data-interval="10000000">
+              <div class="carousel-item" data-interval="false">
                   <iframe class="d-block w-100" width="560" height="340" src="{{ video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             {% endfor %}
@@ -41,9 +41,11 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-        <div class="app">
-          <div class="starRev" style="margin-top:20px;" movie='{{ movie.pk }}'>
-            <span id="" value=0>나의 평점</span>
+
+        {% if rated %}
+        <div id="app">
+          <div class="starRated" style="margin-top:20px;" movie='{{ movie.pk }}' score='{{ rated }}'>
+            <span id="myScore" value=0>나의 평점</span>
             <span id="star1" class="starR" value=1></span>
             <span id="star2" class="starR" value=2></span>
             <span id="star3" class="starR" value=3></span>
@@ -51,38 +53,22 @@
             <span id="star5" class="starR" value=5></span>
           </div>
         </div>
-        <div class="container">
-          <span id="rateMe2"  class="empty-stars"></span>
-        </div>
-        
+        {% else %}
+          <div class="starRev" style="margin-top:20px;" movie='{{ movie.pk }}'>
+            <span id="myScore" value=0>나의 평점</span>
+            <span id="star1" class="starR" value=1></span>
+            <span id="star2" class="starR" value=2></span>
+            <span id="star3" class="starR" value=3></span>
+            <span id="star4" class="starR" value=4></span>
+            <span id="star5" class="starR" value=5></span>
+          </div>
+        {% endif %}
+
     </div>
   </div>
 
-
   <div class="movie_detail">
       <pre id="movieDescript">{{ movie.description }}</pre>
-  </div>
-
-      
-  
-  <div class="review_area">
-    <h5>리뷰</h5>
-    {% if user.is_authenticated %}
-    <form action="{% url 'movies:create_review' movie.pk %}" method="POST">
-      {% csrf_token %}
-      {% bootstrap_form review_form %}
-      <input class="btn btn-light" type="submit" value="작성">
-    </form>
-    {% endif %}
-    {% for review in reviews %}
-      <form action="{% url 'movies:delete_review' movie.pk review.pk %}" method="POST">
-        {{ review.user }} - {{ review.content }} {{ review.score}}점
-        {% if user == review.user %}
-          {% csrf_token %}
-          <button class="btn btn-warning" type="submit">삭제</button>
-        {% endif %}
-      </form>  
-    {% endfor %}
   </div>
 </div>
 
@@ -98,6 +84,12 @@
   cursor: pointer;
 }
 .starR.on{background-position:0 0;}
+#movieDescript {
+  word-break:break-all;
+}
+.col-7 {
+  color:#dcdcdc;
+}
 </style>
 
 <script>
@@ -110,6 +102,13 @@
   document.querySelector('#movieDescript').innerText = ''
   document.querySelector('#movieDescript').append(test)
 
+
+  let rated_score = Number($('.starRated').attr('score'))
+  window.addEventListener('load', function() {
+    $(`#star${rated_score}`).addClass('on').prevAll('span').addClass('on');
+  })
+
+
   $('.starRev span').click(function(){
     $(this).parent().children('span').removeClass('on');
     $(this).addClass('on').prevAll('span').addClass('on');
@@ -117,6 +116,15 @@
     movie = $(this).parent().attr('movie')
     axios.get(`/movies/${movie}/score/${score}/`)
   });
+
+  $('.starRated span').click(function(){
+    $(this).parent().children('span').removeClass('on');
+    $(this).addClass('on').prevAll('span').addClass('on');
+    score = $(this).attr('value')
+    movie = $(this).parent().attr('movie')
+    axios.get(`/movies/${movie}/score/${score}/`)
+  });
+
 
 </script>
 {% endblock %}

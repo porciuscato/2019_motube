@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+
+{% if result %}
+  <div id="app" class="mt-3">
+    <div class="row">
+      {% for movie in result %}
+      <div class="col-3 mb-2">
+        <div class="card" style="width: 15rem;">
+          {% if user.is_authenticated %}
+            <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster" style="height:20rem"></a>
+          {% endif %}
+          <div class="card-body px-3 py-3">
+              <h5 class="card-title m-0"><a id="title_link" href="{% url 'movies:detail' movie.pk %}" style="font-size:1.1rem">{{ movie.title }}</a></h5>
+            {% if user.is_authenticated %}
+              {% if user in movie.like_users.all %}
+                <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-outline-primary" style="margin-left:120px; margin-top:10px;">찜 취소</button>
+              {% else %}
+                <button @click="like({{ movie.pk }})" id="like{{ movie.pk }}" class="btn btn-primary" style="margin-left:120px; margin-top:10px;">찜하기</button>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+  <p>없어요</p>
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+    },
+    methods: {
+      like(movieId) {
+        const likeBtn = document.querySelector(`#like${movieId}`)
+        axios.get(`/movies/${movieId}/like/`)
+          .then(res => {
+            if (res.data.liked) {
+              likeBtn.className='btn btn-outline-primary'
+              likeBtn.innerText='찜 취소'
+            } else {
+              likeBtn.className='btn btn-primary'
+              likeBtn.innerText='찜하기'
+            }
+          })
+      }
+    }
+  })
+</script>
+
+<style type="text/css">
+  #title_link:link {
+    color: black; text-decoration: none;
+  }
+  #title_link:visited {
+    color: black; text-decoration: none;
+  }
+  #title_link:hover {
+    color: black; text-decoration: none;
+  }
+  .card-title {
+    text-align: center;
+  }
+</style>
+
+{% endblock %}

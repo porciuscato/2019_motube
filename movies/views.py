@@ -24,7 +24,13 @@ def detail(request, movie_pk):
     videos = [ele for ele in videos]
     video_srcs = [ele.video_src for ele in videos]
     first_src = video_srcs[0]
-    rem_src = video_srcs[1:]
+    rem_src = video_srcs[1:5]
+    # 좋아요한 목록을 보자...
+    rated_movie = Movie_Score.objects.filter(user=request.user, movie=movie)
+    if rated_movie:
+        rated = rated_movie[0].score
+    else:
+        rated = False
     context = {
         'movie': movie,
         'review_form': review_form,
@@ -32,6 +38,7 @@ def detail(request, movie_pk):
         'videos': videos,
         'first_src': first_src,
         'rem_src': rem_src,
+        'rated': rated,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -83,3 +90,17 @@ def create_score(request, movie_pk, score):
         instance = Movie_Score(user=request.user, movie=movie, score=score)
         instance.save()
     return redirect('movies:detail', movie_pk)
+
+@login_required
+def search(request):
+    q = request.GET.get('query', '')
+    result = []
+    if q:
+        result += Movie.objects.filter(title__icontains=q)
+    if not result:
+        result = False
+    context = {
+        'q': q,
+        'result': result
+    }
+    return render(request, 'movies/search.html', context)

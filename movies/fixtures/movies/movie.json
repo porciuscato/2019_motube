@@ -1831,28 +1831,6 @@
         }
     },
     {
-        "pk": 89,
-        "model": "movies.Movie",
-        "fields": {
-            "title": "BIFAN2019 판타스틱 단편 걸작선 1",
-            "open_date": " ",
-            "description": "<div class=\"story_area\">\n<div class=\"title_area\">\n<h4 class=\"h_story\"><strong class=\"blind\">줄거리</strong></h4>\n</div>\n<p class=\"con_tx\">&lt; KIM &gt; 13min\r<br/> 이 영상은 오직 인터넷에 떠도는 저작권이 자유로운 자료들의 모임으로만 만들어졌다. 그들이 함께 어울려져 살아가고 있는 허구의 세계와 그들이 딛고 있는 보이지 않는 층(green screen)에 대해 표현해보고자 했다. \r<br/> \r<br/> &lt;삼제왕풀이&gt; 5min\r<br/> 아들을 낳기 위한 굿을 하는 집, 효진은 엄마를 괴롭히는 굿을 저지하려고 한다.\r<br/> \r<br/> &lt;안나&gt; 21min\r<br/> 외로운 유년시절을 보낸 안나에게 영화는 친구 같은 존재다. 스스로를 영화로 위로하며 살아온 안나는 영화를 볼 때마다 하고 싶은 것이 바뀐다. 복싱, 피아노, 이번엔 탭댄스다. 탭댄스 대회를 나가기 위한 10만원, 하루 종일 편의점에서 일하는 엄마를 졸라보지만 엄마의 반응은 냉담할 뿐이다. \r<br/> \r<br/> &lt;아버지가방에들어가신다!&gt; 17min\r<br/> 아버지가 식물인간이 되었다. 딸은 아버지의 기억이 담긴 로봇을 가방에 넣고 함께 다닌다. 아직은 어색한 딸과 로봇 아버지의 이야기! \r<br/> \r<br/> &lt;거리의 가능한 불행들&gt; 35min\r<br/> 오랜 시간이 흘렀다. 그리고 어떤 과거들은 쉽게 사라지지 않는다. 형제는 20년 만에 사건이 일어났던 장소로 향한다..</p>\n</div>",
-            "audi_score": 0,
-            "net_score": 0,
-            "press_score": 0,
-            "audi": 25000,
-            "rate": "15세 관람가",
-            "naver_code": "183666",
-            "poster": "https://movie-phinf.pstatic.net/20190708_155/1562561851044b5Nkb_JPEG/movie_image.jpg",
-            "genre": [
-                15,
-                1,
-                10
-            ],
-            "youtube_score": -0.31860146340749645
-        }
-    },
-    {
         "pk": 90,
         "model": "movies.Movie",
         "fields": {
