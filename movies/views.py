@@ -6,7 +6,9 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from IPython import embed
-
+from django_pandas.io import read_frame
+scores = Movie_Score.objects.all()
+print(scores.to_pivot_table())
 # Create your views here.
 def index(request):
     movies = Movie.objects.all()

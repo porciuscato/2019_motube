@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django_pandas.managers import DataFrameManager
 
 # Create your models here.
 class Genre(models.Model):
@@ -69,4 +70,5 @@ class Movie_Score(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     score = models.FloatField()
-        
+    
+    objects = DataFrameManager()
