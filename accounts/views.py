@@ -75,13 +75,15 @@ def user_detail(request, user_pk):
     like_movies = person.like_movies.all()
     reviews = Review.objects.filter(author=user_pk)
     scores = Movie_Score.objects.all()
-    ratings = scores.to_pivot_table(values='score', rows='movie', cols='user').to_dict()
-    movie_names = get_recommend(ratings, request.user.username)
-    movie_lst = []
-    for name in movie_names:
-        movie = Movie.objects.filter(title=name)[0]
-        movie_lst.append(movie)
-
+    if scores:
+        ratings = scores.to_pivot_table(values='score', rows='movie', cols='user').to_dict()
+        movie_names = get_recommend(ratings, request.user.username)
+        movie_lst = []
+        for name in movie_names:
+            movie = Movie.objects.filter(title=name)[0]
+            movie_lst.append(movie)
+    else:
+        movie_lst = []
     context = {
         'person': person,
         'reviews': reviews,
