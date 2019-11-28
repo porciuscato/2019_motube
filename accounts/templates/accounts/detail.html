@@ -25,10 +25,18 @@
     </div>
     {% endfor %}
   </div>
-  {% for review in movie.review_set.all %}
-  <p>{{ movie }} {{ review.score }}</p>
-  {% endfor %}
+  <h3 class="mt-3">알수없는 추천 알고리즘</h3>
+  <div class="row">
+    {% for movie in reco_movies %}
+    <div class="col-3">
+      <div class="card" style="width: 18rem;">
+        <a href="{% url 'movies:detail' movie.pk %}"><img class="card-img-top" src="{{ movie.poster }}" alt="poster"></a>
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }}</h5>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-
-
 {% endblock %}
