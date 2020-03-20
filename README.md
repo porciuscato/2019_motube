@@ -26,6 +26,9 @@
 
 만들어진 소스코드는 heroku를 통해 배포되었다. 주소는 다음과 같다. [Motube]( https://ssafy-create.herokuapp.com/ )
 
+- 테스트 계정의 ID : testaccount
+
+- 테스트 계정 비밀번호: qlalfqjsgh
 
 
 다음의 패키지를 사용하였다.
